@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Price Prediction Model</title>
+
+        <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+            crossorigin="anonymous"></script>
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+            crossorigin="anonymous">
+
+        <!-- Optional theme -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+            crossorigin="anonymous">
+
+        <!-- Latest compiled and minified JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="../static/css/style.css">
+        <script
+            src="https://code.jquery.com/jquery-3.4.1.js"
+            integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+            crossorigin="anonymous">
+        </script>
+    </head>
+    <body>
+        <div class="container">
+            <div class="col-6 col-xl-2">
+                <h1 class="mb-0 site-logo"><a href="/" class="h2 mb-0">AirBnBees<span class="text-primary">.</span> </a></h1>
+              </div>
+            <div class="jumbotron" style="text-align: center">
+                <h1>Price Prediction Model</h1>
+                <p>Enter your details below!</p>
+            </div>
+            <div class="row">
+                <div class="col-md-offset-2 col-md-8">
+                    <form  method="POST" action="/" role="form", name="resform" id="foodForm">
+                        <div class="form-group">
+                            <label for="inputName"> Accommodates</label>
+                            <input type="text" class="form-control" id="Accommodates" name="Accommodates" placeholder="">
+                        </div>
+                        <div class="form-group">
+                            <label for="inputName"> Bathrooms</label>
+                            <input type="text" class="form-control" id="Bathrooms" name="Bathrooms" placeholder="">
+                        </div>
+                        <div class="form-group">
+                            <label for="inputName"> Cleaning Fee</label>
+                            <input type="text" class="form-control" id="Cleaning" name="Cleaning" placeholder="">
+                        </div>
+                        <div class="form-group">
+                            <label for="inputName"> Exact Location</label>
+                            <input type="text" class="form-control" id="Location" name="Location" placeholder="">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="preferredRestaurant">Room Type</label>
+                            <select class="form-control" id="select" name="select-option" onchange="javascript:optionChanged()">
+                                <option value="">Select..</option>
+                                <option value="home">Entire home/apt</option>
+                                <option value="private">Private room</option>
+                                <option value="shared">Shared room</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="preferredRestaurant">Bed Type</label>
+                            <select class="form-control" id="select" name="select-option" onchange="javascript:optionChanged()">
+                                <option value="">Select..</option>
+                                <option value="home">Airbed</option>
+                                <option value="private">Couch</option>
+                                <option value="shared">Futon</option>
+                                <option value="private">Pull-out-Sofa</option>
+                                <option value="shared">Real Bed</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="preferredRestaurant">Neighbourhood</label>
+                            <select class="form-control" id="select" name="select-option" onchange="javascript:optionChanged()">
+                                <option value="">Select..</option>
+                                {% for item in test %}
+                                <option value="{{item}}">{{item}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                       
+                        <input type="button" value="Submit" id="Submit" class="btn btn-default" data-toggle="modal" data-target="#successModal" >
+                        <div class="col-md-6">
+                        <label for="inputName"> </label>
+                        </div>
+                    </form>
+                </div>
+            </div>
+           
+
+            <div class="modal" tabindex="-1" role="dialog" id="successModal">
+                    <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title">Success! </h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                          <p>Reservation succsessfully completed.</p>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-primary" onClick="javascript:window.location.href='/'">Take me home</button>
+                          <!--button type="button" class="btn btn-secondary" data-dismiss="modal" id="submitAnotherRequest">Submit another request</button-->
+                        </div>
+                      </div>
+                    </div>
+                </div>
+
+            </div>
+
+        <script type="text/javascript">
+            $(document).ready(function(){
+                $('#submitAnotherRequest').click(function (e) {
+                    //e.preventDefault();
+                    //window.location.href = "/";
+                    $('#inputName').val('');
+                    $('#inputOcc').val('');
+                    $('#inputNum').val('');
+                    $('#inputCuisine').val('');
+                    $('#preferredRestaurant').val('');
+                    $('#numberOfGuests').val('');
+                    $('#reservationDateTime').val('');
+                    $('#successModal').modal('hide');
+
+                });
+            });
+        </script>
+        
+
+    </body>
+
+</html>
